@@ -15,7 +15,7 @@ import java.awt.Graphics;
 import javax.swing.JApplet;
 import javax.swing.JOptionPane;
 
-@SuppressWarnings("serial")  //Eclipse was giving a warning about the class not containing a serial so I suppresses it <JB>.
+@SuppressWarnings("serial")  //Eclipse was giving a warning about the class not containing a serial so I suppressed it <JB>.
 public class myWindow extends JApplet {
 	String inputOne;
 	String inputTwo;        //JOptionPane and "draw" method work with strings, so making the data members String type
