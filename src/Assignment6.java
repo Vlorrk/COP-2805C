@@ -1,68 +1,104 @@
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 
 import java.sql.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+
 
 @SuppressWarnings("serial")
-public class Assignment6 extends JApplet {
+public class Assignment6 extends JApplet { //Using Applet instead of JAVAFX for GUI, more comfortable
 
 	
-JTextField jTextFieldID = new JTextField(9);
+JTextField jTextFieldID = new JTextField(9);  //creating the entry text Fields
+
 JTextField jTextFieldLName = new JTextField(15);
+
 JTextField jTextFieldFName = new JTextField(15);
+
 JTextField jTextFieldMI = new JTextField(1);
+
 JTextField jTextFieldAddress = new JTextField(20);
+
 JTextField jTextFieldCity = new JTextField(20);
+
 JTextField jTextFieldState = new JTextField(2);
-JTextField jTextField8 = new JTextField(10);
-JTextField jTextField9 = new JTextField(40);
+
+JTextField jTextFieldTelephone = new JTextField(10);
+
+JTextField jTextFieldEmail = new JTextField(40);
  
- private Connection connection;
+ private Connection connection; //data member for creating connection to the MySQL database
 
- public void init() {
+ public void init() {  //method that starts the applet
+
+	 
+  connectToDatabase(); //calling method that connects to the DB
+
+
+
   setLayout(new BorderLayout());
-  connectToDatabase();
+  
 
-  JPanel jPanel1 = new JPanel(new FlowLayout());
-  jPanel1.setBorder(new TitledBorder("Staff information"));
-  jPanel1.add(new JLabel("ID"));
-  jPanel1.add(jTextFieldID);
-  jPanel1.add(new JLabel("Last Name"));
-  jPanel1.add(jTextFieldLName);
-  jPanel1.add(new JLabel("First Name"));
-  jPanel1.add(jTextFieldFName);
-  jPanel1.add(new JLabel("MI"));
-  jPanel1.add(jTextFieldMI);
-  jPanel1.add(new JLabel("Address"));
-  jPanel1.add(jTextFieldAddress);
-  jPanel1.add(new JLabel("City"));
-  jPanel1.add(jTextFieldCity);
-  jPanel1.add(new JLabel("State"));
-  jPanel1.add(jTextFieldState);
-  jPanel1.add(new JLabel("Telephone"));
-  jPanel1.add(jTextField8);
-  jPanel1.add(new JLabel("E-mail"));
-  jPanel1.add(jTextField9);
-  add(jPanel1, BorderLayout.CENTER);
+  JPanel assignmentPanel = new JPanel(new FlowLayout()); //creating Panel where text fields will be
   
-  JPanel jPanel2 = new JPanel(new GridLayout(1, 4, 5, 5));
-  jPanel2.setBorder(new EmptyBorder(5, 5, 5, 5));
-  JButton jButton1 = new JButton("View");
-  jPanel2.add(jButton1);
-  JButton jButton2 = new JButton("Insert");
-  jPanel2.add(jButton2);
-  JButton jButton3 = new JButton("Update");
-  jPanel2.add(jButton3);
-  JButton jButton4 = new JButton("Clear");
-  jPanel2.add(jButton4);
-  add(jPanel2, BorderLayout.SOUTH);
   
-  jButton1.addActionListener(new ActionListener() {   
+
+  //each of these will put a label in front of the text fields where the info is entered.
+  	assignmentPanel.add(new JLabel("ID"));
+  	assignmentPanel.add(jTextFieldID);
+  
+  	assignmentPanel.add(new JLabel("Last Name"));
+  	assignmentPanel.add(jTextFieldLName);
+  
+  	assignmentPanel.add(new JLabel("First Name"));
+  	assignmentPanel.add(jTextFieldFName);
+  
+  	assignmentPanel.add(new JLabel("MI"));
+  	assignmentPanel.add(jTextFieldMI);
+  
+  	assignmentPanel.add(new JLabel("Address"));
+  	assignmentPanel.add(jTextFieldAddress);
+  
+  	assignmentPanel.add(new JLabel("City"));
+  	assignmentPanel.add(jTextFieldCity);
+  
+  	assignmentPanel.add(new JLabel("State"));
+  	assignmentPanel.add(jTextFieldState);
+  
+  	assignmentPanel.add(new JLabel("Telephone"));
+  	assignmentPanel.add(jTextFieldTelephone);
+  
+  	assignmentPanel.add(new JLabel("E-mail"));
+  	assignmentPanel.add(jTextFieldEmail);
+  
+  	add(assignmentPanel, BorderLayout.CENTER);
+  
+  JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 5, 5));
+  
+  buttonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+  
+  JButton viewButton = new JButton("View");
+  buttonPanel.add(viewButton);
+  
+  JButton insertButton = new JButton("Insert");
+  buttonPanel.add(insertButton);
+  
+  JButton updateButton = new JButton("Update");
+  buttonPanel.add(updateButton);
+  
+  JButton clearButton = new JButton("Clear");
+  buttonPanel.add(clearButton);
+  
+  add(buttonPanel, BorderLayout.SOUTH);
+  
+  viewButton.addActionListener(new ActionListener() {   //event that happens when hitting the view button
    @Override
-   public void actionPerformed(ActionEvent aerg0) {
+   
+   public void actionPerformed(ActionEvent idEntered) {
     String queryString = "select lastName, firstName, mi, address, city, state, telephone, email from Staff where id = ?;";
     try {
      PreparedStatement preparedStatement = connection.prepareStatement(queryString);
@@ -75,8 +111,8 @@ JTextField jTextField9 = new JTextField(40);
       jTextFieldAddress.setText(rset.getString(4));
       jTextFieldCity.setText(rset.getString(5));
       jTextFieldState.setText(rset.getString(6));
-      jTextField8.setText(rset.getString(7));
-      jTextField9.setText(rset.getString(8));
+      jTextFieldTelephone.setText(rset.getString(7));
+      jTextFieldEmail.setText(rset.getString(8));
      } else {
       jTextFieldLName.setText("");
       jTextFieldFName.setText("");
@@ -84,8 +120,8 @@ JTextField jTextField9 = new JTextField(40);
       jTextFieldAddress.setText("");
       jTextFieldCity.setText("");
       jTextFieldState.setText("");
-      jTextField8.setText("");
-      jTextField9.setText("");
+      jTextFieldTelephone.setText("");
+      jTextFieldEmail.setText("");
      }
     } catch (SQLException e2) {
      e2.printStackTrace();
@@ -93,7 +129,7 @@ JTextField jTextField9 = new JTextField(40);
    }
   });
   
-  jButton2.addActionListener(new ActionListener() {   
+  insertButton.addActionListener(new ActionListener() {   
    @Override
    public void actionPerformed(ActionEvent e) {
     String queryString = "insert into Staff (id, lastName, firstName, mi, address, city, state, telephone, email) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -106,8 +142,8 @@ JTextField jTextField9 = new JTextField(40);
      preparedStatement.setString(5, jTextFieldAddress.getText());
      preparedStatement.setString(6, jTextFieldCity.getText());
      preparedStatement.setString(7, jTextFieldState.getText());
-     preparedStatement.setString(8, jTextField8.getText());
-     preparedStatement.setString(9, jTextField9.getText());
+     preparedStatement.setString(8, jTextFieldTelephone.getText());
+     preparedStatement.setString(9, jTextFieldEmail.getText());
      preparedStatement.executeUpdate();
     } catch (SQLException e2) {
      e2.printStackTrace();
@@ -115,7 +151,7 @@ JTextField jTextField9 = new JTextField(40);
    }
   });
   
-  jButton3.addActionListener(new ActionListener() {   
+  updateButton.addActionListener(new ActionListener() {   
    @Override
    public void actionPerformed(ActionEvent e) {
     String queryString = "update Staff set lastName = ?, firstName = ?, mi = ?, address = ?, city = ?, state = ?, telephone = ?, email = ? where id = ?";
@@ -127,8 +163,8 @@ JTextField jTextField9 = new JTextField(40);
      preparedStatement.setString(4, jTextFieldAddress.getText());
      preparedStatement.setString(5, jTextFieldCity.getText());
      preparedStatement.setString(6, jTextFieldState.getText());
-     preparedStatement.setString(7, jTextField8.getText());
-     preparedStatement.setString(8, jTextField9.getText());
+     preparedStatement.setString(7, jTextFieldTelephone.getText());
+     preparedStatement.setString(8, jTextFieldEmail.getText());
      preparedStatement.setString(9, jTextFieldID.getText());
      preparedStatement.executeUpdate();
     } catch (SQLException e2) {
@@ -137,7 +173,7 @@ JTextField jTextField9 = new JTextField(40);
    }
   });
   
-  jButton4.addActionListener(new ActionListener() {   
+  clearButton.addActionListener(new ActionListener() {   
    @Override
    public void actionPerformed(ActionEvent e) {
     try {
@@ -150,8 +186,8 @@ JTextField jTextField9 = new JTextField(40);
      jTextFieldAddress.setText("");
      jTextFieldCity.setText("");
      jTextFieldState.setText("");
-     jTextField8.setText("");
-     jTextField9.setText("");
+     jTextFieldTelephone.setText("");
+     jTextFieldEmail.setText("");
     } catch (SQLException e2) {
      e2.printStackTrace();
     }
@@ -162,23 +198,13 @@ JTextField jTextField9 = new JTextField(40);
  private void connectToDatabase() {
   try {
    Class.forName("com.mysql.jdbc.Driver");
-   connection = DriverManager.getConnection("jdbc:mysql://localhost/assignment6", "root", "root");
+   
+   //Connecting to my MySQL database named "assignment 6, user and pass listed afterwards
+   connection = DriverManager.getConnection("jdbc:mysql://localhost/assignment6", "jbaez34", "assignment6");
   } catch (Exception ex) {
    ex.printStackTrace();
   }
  }
 
- /** Main method */
- public static void main(String[] args) {
-  Assignment6 applet = new Assignment6();
-  JFrame frame = new JFrame();
-  frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  frame.setTitle("Exercise01");
-  frame.getContentPane().add(applet, BorderLayout.CENTER);
-  applet.init();
-  applet.start();
-  frame.setSize(540, 200);
-  frame.setLocationRelativeTo(null);
-  frame.setVisible(true);
- }
+
 }
