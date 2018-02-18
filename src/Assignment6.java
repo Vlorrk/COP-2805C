@@ -6,40 +6,42 @@ import java.sql.*;
 import java.awt.*;
 import java.awt.event.*;
 
+@SuppressWarnings("serial")
 public class Assignment6 extends JApplet {
- private static final long serialVersionUID = 1L;
- private JTextField jTextField1 = new JTextField(10);
- private JTextField jTextField2 = new JTextField(10);
- private JTextField jTextField3 = new JTextField(10);
- private JTextField jTextField4 = new JTextField(3);
- private JTextField jTextField5 = new JTextField(10);
- private JTextField jTextField6 = new JTextField(10);
- private JTextField jTextField7 = new JTextField(3);
- private JTextField jTextField8 = new JTextField(10);
- private JTextField jTextField9 = new JTextField(10);
+
+	
+JTextField jTextFieldID = new JTextField(9);
+JTextField jTextFieldLName = new JTextField(15);
+JTextField jTextFieldFName = new JTextField(15);
+JTextField jTextFieldMI = new JTextField(1);
+JTextField jTextFieldAddress = new JTextField(20);
+JTextField jTextFieldCity = new JTextField(20);
+JTextField jTextFieldState = new JTextField(2);
+JTextField jTextField8 = new JTextField(10);
+JTextField jTextField9 = new JTextField(40);
  
  private Connection connection;
 
  public void init() {
   setLayout(new BorderLayout());
-  initializeDB();
+  connectToDatabase();
 
   JPanel jPanel1 = new JPanel(new FlowLayout());
   jPanel1.setBorder(new TitledBorder("Staff information"));
   jPanel1.add(new JLabel("ID"));
-  jPanel1.add(jTextField1);
+  jPanel1.add(jTextFieldID);
   jPanel1.add(new JLabel("Last Name"));
-  jPanel1.add(jTextField2);
+  jPanel1.add(jTextFieldLName);
   jPanel1.add(new JLabel("First Name"));
-  jPanel1.add(jTextField3);
-  jPanel1.add(new JLabel("mi"));
-  jPanel1.add(jTextField4);
+  jPanel1.add(jTextFieldFName);
+  jPanel1.add(new JLabel("MI"));
+  jPanel1.add(jTextFieldMI);
   jPanel1.add(new JLabel("Address"));
-  jPanel1.add(jTextField5);
+  jPanel1.add(jTextFieldAddress);
   jPanel1.add(new JLabel("City"));
-  jPanel1.add(jTextField6);
+  jPanel1.add(jTextFieldCity);
   jPanel1.add(new JLabel("State"));
-  jPanel1.add(jTextField7);
+  jPanel1.add(jTextFieldState);
   jPanel1.add(new JLabel("Telephone"));
   jPanel1.add(jTextField8);
   jPanel1.add(new JLabel("E-mail"));
@@ -64,24 +66,24 @@ public class Assignment6 extends JApplet {
     String queryString = "select lastName, firstName, mi, address, city, state, telephone, email from Staff where id = ?;";
     try {
      PreparedStatement preparedStatement = connection.prepareStatement(queryString);
-     preparedStatement.setString(1, jTextField1.getText());
+     preparedStatement.setString(1, jTextFieldID.getText());
      ResultSet rset = preparedStatement.executeQuery();
      if (rset.next()) {
-      jTextField2.setText(rset.getString(1));
-      jTextField3.setText(rset.getString(2));
-      jTextField4.setText(rset.getString(3));
-      jTextField5.setText(rset.getString(4));
-      jTextField6.setText(rset.getString(5));
-      jTextField7.setText(rset.getString(6));
+      jTextFieldLName.setText(rset.getString(1));
+      jTextFieldFName.setText(rset.getString(2));
+      jTextFieldMI.setText(rset.getString(3));
+      jTextFieldAddress.setText(rset.getString(4));
+      jTextFieldCity.setText(rset.getString(5));
+      jTextFieldState.setText(rset.getString(6));
       jTextField8.setText(rset.getString(7));
       jTextField9.setText(rset.getString(8));
      } else {
-      jTextField2.setText("");
-      jTextField3.setText("");
-      jTextField4.setText("");
-      jTextField5.setText("");
-      jTextField6.setText("");
-      jTextField7.setText("");
+      jTextFieldLName.setText("");
+      jTextFieldFName.setText("");
+      jTextFieldMI.setText("");
+      jTextFieldAddress.setText("");
+      jTextFieldCity.setText("");
+      jTextFieldState.setText("");
       jTextField8.setText("");
       jTextField9.setText("");
      }
@@ -97,13 +99,13 @@ public class Assignment6 extends JApplet {
     String queryString = "insert into Staff (id, lastName, firstName, mi, address, city, state, telephone, email) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     try {
      PreparedStatement preparedStatement = connection.prepareStatement(queryString);
-     preparedStatement.setString(1, jTextField1.getText());
-     preparedStatement.setString(2, jTextField2.getText());
-     preparedStatement.setString(3, jTextField3.getText());
-     preparedStatement.setString(4, jTextField4.getText());
-     preparedStatement.setString(5, jTextField5.getText());
-     preparedStatement.setString(6, jTextField6.getText());
-     preparedStatement.setString(7, jTextField7.getText());
+     preparedStatement.setString(1, jTextFieldID.getText());
+     preparedStatement.setString(2, jTextFieldLName.getText());
+     preparedStatement.setString(3, jTextFieldFName.getText());
+     preparedStatement.setString(4, jTextFieldMI.getText());
+     preparedStatement.setString(5, jTextFieldAddress.getText());
+     preparedStatement.setString(6, jTextFieldCity.getText());
+     preparedStatement.setString(7, jTextFieldState.getText());
      preparedStatement.setString(8, jTextField8.getText());
      preparedStatement.setString(9, jTextField9.getText());
      preparedStatement.executeUpdate();
@@ -119,15 +121,15 @@ public class Assignment6 extends JApplet {
     String queryString = "update Staff set lastName = ?, firstName = ?, mi = ?, address = ?, city = ?, state = ?, telephone = ?, email = ? where id = ?";
     try {
      PreparedStatement preparedStatement = connection.prepareStatement(queryString);
-     preparedStatement.setString(1, jTextField2.getText());
-     preparedStatement.setString(2, jTextField3.getText());
-     preparedStatement.setString(3, jTextField4.getText());
-     preparedStatement.setString(4, jTextField5.getText());
-     preparedStatement.setString(5, jTextField6.getText());
-     preparedStatement.setString(6, jTextField7.getText());
+     preparedStatement.setString(1, jTextFieldLName.getText());
+     preparedStatement.setString(2, jTextFieldFName.getText());
+     preparedStatement.setString(3, jTextFieldMI.getText());
+     preparedStatement.setString(4, jTextFieldAddress.getText());
+     preparedStatement.setString(5, jTextFieldCity.getText());
+     preparedStatement.setString(6, jTextFieldState.getText());
      preparedStatement.setString(7, jTextField8.getText());
      preparedStatement.setString(8, jTextField9.getText());
-     preparedStatement.setString(9, jTextField1.getText());
+     preparedStatement.setString(9, jTextFieldID.getText());
      preparedStatement.executeUpdate();
     } catch (SQLException e2) {
      e2.printStackTrace();
@@ -141,13 +143,13 @@ public class Assignment6 extends JApplet {
     try {
      Statement statement = connection.createStatement();
      statement.executeUpdate("delete from Staff;");
-     jTextField1.setText("");
-     jTextField2.setText("");
-     jTextField3.setText("");
-     jTextField4.setText("");
-     jTextField5.setText("");
-     jTextField6.setText("");
-     jTextField7.setText("");
+     jTextFieldID.setText("");
+     jTextFieldLName.setText("");
+     jTextFieldFName.setText("");
+     jTextFieldMI.setText("");
+     jTextFieldAddress.setText("");
+     jTextFieldCity.setText("");
+     jTextFieldState.setText("");
      jTextField8.setText("");
      jTextField9.setText("");
     } catch (SQLException e2) {
@@ -157,10 +159,10 @@ public class Assignment6 extends JApplet {
   });
  }
 
- private void initializeDB() {
+ private void connectToDatabase() {
   try {
    Class.forName("com.mysql.jdbc.Driver");
-   connection = DriverManager.getConnection("jdbc:mysql://localhost/javabook", "root", "root");
+   connection = DriverManager.getConnection("jdbc:mysql://localhost/assignment6", "root", "root");
   } catch (Exception ex) {
    ex.printStackTrace();
   }
@@ -168,7 +170,7 @@ public class Assignment6 extends JApplet {
 
  /** Main method */
  public static void main(String[] args) {
-  Exercise01 applet = new Exercise01();
+  Assignment6 applet = new Assignment6();
   JFrame frame = new JFrame();
   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
   frame.setTitle("Exercise01");
